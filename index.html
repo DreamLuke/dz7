@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,10 +10,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 </head>
 <body>
-
 <br>
 <div class="container">
     <div class="row">
+
+
 
         <form style="width: 100%" id="id-form" method="post">
             <div class="form-group row">
@@ -26,7 +27,8 @@
                             name="title"
                             value=""
                     >
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="title-error"></div>
                 </div>
             </div>
 
@@ -39,7 +41,8 @@
                             class="form-control"
                             cols="30"
                             rows="10"></textarea>
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="annotation-error"></div>
                 </div>
             </div>
 
@@ -52,7 +55,8 @@
                             class="form-control"
                             cols="30"
                             rows="10"></textarea>
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="content-error"></div>
                 </div>
             </div>
 
@@ -66,7 +70,8 @@
                             name="email"
                             value=""
                     >
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="email-error"></div>
                 </div>
             </div>
 
@@ -80,7 +85,8 @@
                             name="views"
                             value=""
                     >
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="views-error"></div>
                 </div>
             </div>
 
@@ -94,7 +100,8 @@
                             name="date"
                             value=""
                     >
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="date-error"></div>
                 </div>
             </div>
 
@@ -107,7 +114,7 @@
                             id="is_publish"
                             name="is_publish"
                     >
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
                 </div>
             </div>
 
@@ -127,7 +134,8 @@
                             Нет
                         </label>
                     </div>
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="publish_in_index-error"></div>
                 </div>
             </div>
 
@@ -140,7 +148,8 @@
                         <option value="2">Культура</option>
                         <option value="3">Политика</option>
                     </select>
-                    <div class="invalid-feedback"></div>
+                    <!-- <div class="invalid-feedback"> -->
+                    <div style="color: red;" class="error" id="category-error"></div>
                 </div>
             </div>
 
@@ -166,6 +175,7 @@
             var form = $(this);
             $.ajax({
                 type: "POST",
+                //url: '/dz7/capcha.php',
                 url: '/capcha.php',
                 data: form.serialize(),
                 dataType: 'json',
@@ -173,11 +183,15 @@
                     {
                         if(data.status) {
                         	console.log(data);
-                        	alert(data.status); 
+                        	alert(data.status);
+                        	$('.error').css('display', 'none');
                         	$('div.alert-success').css('display', 'block');
                         } else {
+                        	alert(data.status);
+                        	$('.error').css('display', 'none');
 							for (key in data.errors) {
-								alert(data.errors[key]);
+								$('#'+ key +'-error').html(data.errors[key]);
+								$('#'+ key +'-error').css('display', 'block');
 							}
                         }
                     }
